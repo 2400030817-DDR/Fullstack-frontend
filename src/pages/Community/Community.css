@@ -1,0 +1,92 @@
+.cm-story {
+  display: flex;
+  flex-direction: column;
+}
+.cm-story__emoji {
+  font-size: 2.5rem;
+  margin-bottom: var(--sp-4);
+}
+.cm-story h3 {
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: var(--sp-3);
+}
+.cm-story p {
+  font-size: 0.92rem;
+  color: var(--gray-500);
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: var(--sp-4);
+}
+.cm-story__author {
+  font-size: 0.85rem;
+  color: var(--red-500);
+  font-weight: 700;
+  font-style: italic;
+}
+
+.cm-people { background: var(--gray-50); }
+.cm-people__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-8);
+}
+
+/* Leaderboard */
+.cm-leaderboard h3, .cm-volunteers h3 {
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: var(--sp-6);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cm-lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cm-lb-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  transition: background var(--t-fast);
+}
+.cm-lb-item:hover { background: var(--gray-50); }
+.cm-lb-item--top { background: var(--red-50); }
+.cm-lb-item--top:hover { background: var(--red-100); }
+.cm-lb-rank { font-size: 1.4rem; }
+.cm-lb-info { flex: 1; }
+.cm-lb-name { font-weight: 700; color: var(--gray-700); display: block; }
+.cm-lb-count { font-size: 0.82rem; color: var(--gray-400); }
+.cm-lb-num { font-weight: 800; color: var(--gray-300); font-size: 0.92rem; }
+
+/* Volunteers */
+.cm-vol-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cm-vol-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.cm-vol-avatar {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-full);
+  background: var(--heart-gradient);
+  color: var(--white);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cm-vol-name { font-weight: 700; color: var(--gray-700); display: block; }
+.cm-vol-stats { font-size: 0.82rem; color: var(--gray-400); }
+
+@media (max-width: 768px) {
+  .cm-people__grid { grid-template-columns: 1fr; }
+}

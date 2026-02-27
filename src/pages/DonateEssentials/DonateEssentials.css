@@ -1,0 +1,8 @@
+/* DonateEssentials styles mostly handled inline + global utility classes.
+   Additional overrides below. */
+
+@media (max-width: 768px) {
+  .page .container > div > div[style*="grid-template-columns: 1.6fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
