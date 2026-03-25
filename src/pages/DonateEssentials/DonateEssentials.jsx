@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { addDashboardActivity } from '../../utils/dashboardStorage';
 import './DonateEssentials.css';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
@@ -28,7 +29,25 @@ export default function DonateEssentials() {
   const slots = ['9 AM – 12 PM', '12 PM – 3 PM', '3 PM – 6 PM', '6 PM – 9 PM'];
 
   const handleSubmit = () => {
-    if (selected.length && date && slot && address) setDone(true);
+    if (!selected.length || !date || !slot || !address) return;
+
+    const selectedLabels = selected
+      .map((id) => ESSENTIALS.find((item) => item.id === id)?.label)
+      .filter(Boolean);
+
+    addDashboardActivity({
+      kind: 'donation',
+      donationType: 'Essentials',
+      title: 'Essentials Pickup',
+      details: `${selectedLabels.join(', ')} x${qty}`,
+      quantity: selected.length * qty,
+      status: 'Scheduled',
+      statusColor: 'orange',
+      pickupDate: date,
+      pickupSlot: slot,
+    });
+
+    setDone(true);
   };
 
   if (done) {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiShield, FiSend, FiCheckCircle } from 'react-icons/fi'
+import { addDashboardActivity } from '../../utils/dashboardStorage'
 import './RequestHelp.css'
 
 const needs = [
@@ -19,6 +20,25 @@ export default function RequestHelp() {
   const [location, setLocation] = useState('')
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = () => {
+    if (!need || !family || !urgency || !location) return
+
+    const needLabel = needs.find(item => item.id === need)?.label || 'Help'
+
+    addDashboardActivity({
+      kind: 'request',
+      donationType: needLabel,
+      title: `${needLabel} Request`,
+      details: `${family} family size in ${location}`,
+      urgency,
+      notes,
+      status: 'Under Review',
+      statusColor: urgency === 'Critical' || urgency === 'High' ? 'orange' : 'gray',
+    })
+
+    setSubmitted(true)
+  }
 
   if (submitted) {
     return (
@@ -120,7 +140,7 @@ export default function RequestHelp() {
 
             <button
               className="btn btn-primary btn-lg rh-submit"
-              onClick={() => setSubmitted(true)}
+              onClick={handleSubmit}
               disabled={!need || !family || !urgency || !location}
             >
               <FiSend /> Submit Request

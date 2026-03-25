@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiCheckCircle, FiCalendar, FiMapPin, FiPackage } from 'react-icons/fi'
+import { addDashboardActivity } from '../../utils/dashboardStorage'
 import './DonateClothes.css'
 
 const clothTypes = [
@@ -30,6 +31,28 @@ export default function DonateClothes() {
     setSelected(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     )
+  }
+
+  const handleSubmit = () => {
+    if (!selected.length || !date || !slot) return
+
+    const selectedLabels = selected
+      .map(id => clothTypes.find(type => type.id === id)?.label)
+      .filter(Boolean)
+
+    addDashboardActivity({
+      kind: 'donation',
+      donationType: 'Clothes',
+      title: 'Clothes Pickup',
+      details: `${selectedLabels.join(', ')} x${qty}`,
+      quantity: qty,
+      status: 'Scheduled',
+      statusColor: 'orange',
+      pickupDate: date,
+      pickupSlot: slot,
+    })
+
+    setSubmitted(true)
   }
 
   if (submitted) {
@@ -123,7 +146,7 @@ export default function DonateClothes() {
             </div>
 
             <button className="btn btn-primary btn-lg dc-submit"
-              onClick={() => setSubmitted(true)}
+              onClick={handleSubmit}
               disabled={!selected.length || !date || !slot}
             >
               <FiPackage /> Schedule Pickup

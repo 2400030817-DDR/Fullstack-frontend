@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiHeart, FiCreditCard, FiSmartphone, FiDollarSign } from 'react-icons/fi'
+import { addDashboardActivity } from '../../utils/dashboardStorage'
 import './DonateMoney.css'
 
 const categories = [
@@ -28,6 +29,23 @@ export default function DonateMoney() {
 
   const parsed = parseInt(custom)
   const finalAmt = custom && !isNaN(parsed) && parsed > 0 ? parsed : amount
+  const categoryLabel = categories.find(item => item.id === cat)?.label || 'Donation'
+
+  const handleDonate = () => {
+    if (!finalAmt || finalAmt <= 0) return
+
+    addDashboardActivity({
+      kind: 'donation',
+      donationType: 'Money',
+      title: `${categoryLabel} Donation`,
+      details: `Rs ${finalAmt.toLocaleString()} via ${payment.toUpperCase()}`,
+      amount: finalAmt,
+      status: 'Delivered',
+      statusColor: 'green',
+    })
+
+    setDonated(true)
+  }
 
   if (donated) {
     return (
@@ -174,7 +192,7 @@ export default function DonateMoney() {
 
             <button
               className="btn btn-primary btn-lg dm-submit"
-              onClick={() => setDonated(true)}
+              onClick={handleDonate}
               disabled={!finalAmt || finalAmt <= 0}
             >
               <FiHeart /> Donate ₹{finalAmt?.toLocaleString() || '0'}
